@@ -15,21 +15,24 @@ Parameters:
 
 
 """
-function assess_adequacy(target_year::Int=2030,
+function assess_adequacy(;
+        target_year::Int=2030,
         reference_trace::Int=4006,
         poe::Int=10,
         samples::Int=100,
         scenario::Int=2,
-        base_path::String="Z://";
-        # Optional parameters that allow for custom configuration
+        base_path::String="",
         genOpDetails::NamedTuple = (uc=true, ramping=true, binary=false),
         DER_parameters = PRASNEM.get_DER_parameters(),
         add_lines = PRASNEM.get_added_lines_per_year(),
         hydro_parameters = PRASNEM.get_hydro_parameters(),
         solver::String = "HiGHS", # "HiGHS" or "Gurobi",
         sample_number_per_run::Int=100,
-        default_horizon::Int=4, min_time_after_event::Int=4, 
-        optimisation_window::Int=48, move_forward::Int=24)
+        default_horizon::Int=4, 
+        min_time_after_event::Int=4, 
+        optimisation_window::Int=48, 
+        move_forward::Int=24,
+        results_folder::String="results")
 
     # Run some checks on the input parameters
     if !(poe in [10, 50])
@@ -50,7 +53,7 @@ function assess_adequacy(target_year::Int=2030,
     base_folder_pisp = joinpath(base_path, "pisp-datasets")
     base_folder_pras = joinpath(base_path, "pras-files")
     base_folder_schedules = joinpath(base_path, "schedules")
-    base_folder_results = joinpath(base_path, "results")
+    base_folder_results = joinpath(base_path, results_folder)
 
     pisp_input_folder = joinpath(base_folder_pisp, "out-ref$(reference_trace)-poe$(poe)", "csv")
     pras_folder = joinpath(base_folder_pras, "out-ref$(reference_trace)-poe$(poe)",)

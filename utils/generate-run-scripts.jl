@@ -171,7 +171,7 @@ function generate_run_scripts(;
     for ty in target_years
         for scenario in scenarios
             for poe in poes
-                base_name  = "run-ty$(ty)-s$(scenario)-poe$(poe)"
+                base_name  = "RUN-TY$(ty)-S$(scenario)-POE$(poe)"
                 jl_path    = joinpath(julia_output_dir, base_name * ".jl")
                 slurm_path = joinpath(slurm_output_dir, base_name * ".slurm")
 

@@ -1,7 +1,7 @@
 include(joinpath(@__DIR__, "utils/generate-run-scripts.jl"))
 
 generate_run_scripts(
-    target_years     = [2030],                          # e.g. collect(2025:2050)
+    target_years     = [2025, 2030],                          # e.g. collect(2025:2050)
     scenarios        = [1, 2, 3],
     poes             = [10, 50],
     ref_traces       = collect(2011:2023),

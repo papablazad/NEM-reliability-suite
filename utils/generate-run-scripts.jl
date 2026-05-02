@@ -55,7 +55,7 @@ function write_slurm_script(
     n_threads::Int,
     time_limit::String
 )
-    job_name = "nem-ty$(target_year)-s$(scenario)-poe$(poe)"
+    job_name = "NEM-TY$(target_year)-S$(scenario)-POE$(poe)"
     content = """
 #!/bin/bash
 #SBATCH --partition=sapphire
@@ -65,8 +65,8 @@ function write_slurm_script(
 #SBATCH --mem=64G
 #SBATCH --time=$(time_limit)
 #SBATCH --job-name=$(job_name)
-#SBATCH --output=%x.out
-#SBATCH --error=%x.err
+#SBATCH --output=%j-%x.out
+#SBATCH --error=%j-%x.err
 #SBATCH --mail-user=pablo.apablazadonoso@unimelb.edu.au
 #SBATCH --mail-type=all
 

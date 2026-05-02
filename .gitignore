@@ -43,3 +43,9 @@ _personal scripts/*
 *.zip
 *.xml
 *.pras
+
+# Parallelism
+batch/
+slurm/
+julia/
+CLAUDE.md

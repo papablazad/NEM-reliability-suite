@@ -50,6 +50,7 @@ slurm/
 julia/
 CLAUDE.md
 runs/
+runs*
 schedules/
 *.err
 *.out

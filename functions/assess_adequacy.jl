@@ -201,7 +201,7 @@ function assess_adequacy(;
         start_idx = (i-1)*sample_number_per_run + 1
         end_idx = min(i*sample_number_per_run, samples)
         filename = joinpath(results_folder, "sf_samples_reoptimised_s$(scenario)_batch$(i).csv")
-        total_final_ens[start_idx:end_idx] .= SchedNEM.ensFromSfMatrix(filename)
+        total_final_ens[start_idx:end_idx] .= SchedNEM.ensFromSfMatrix(filename)[1:(end_idx - start_idx + 1)]
     end
 
     @info "Final expected shortfall (EENS) across all samples after reoptimisation: $(mean(total_final_ens)) +- $(std(total_final_ens) ./ sqrt(samples))."

@@ -73,7 +73,7 @@ function write_slurm_script(
 module load GCCcore/11.3.0
 module load Gurobi/13.0.1
 
-julia --threads=$(n_threads) $(julia_script_path)
+julia --threads=$(n_threads) --gcthreads=1 $(julia_script_path)
 
 echo "ALL DONE!"
 my-job-stats -a -n -s

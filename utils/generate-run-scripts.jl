@@ -148,7 +148,7 @@ function generate_run_scripts(;
     ref_traces::Vector{Int}          = collect(2011:2023),
     samples::Int                     = 1000,
     base_path::String                = "/data/gpfs/projects/punim2114/arpst/proj-4310_arpst_2026-1128.4.1597",
-    julia_repo_path::String          = "/home/papablazadon/git/NEM-reliability-suite",
+    julia_repo_path::String          = "/home/papablaza/git/NEM-reliability-suite",
     n_threads::Int                   = 10,
     time_limit::String               = "2-00:00:00",
     results_folder::String           = "results-spartan",

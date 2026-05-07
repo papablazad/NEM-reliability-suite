@@ -35,7 +35,7 @@ function assess_adequacy(;
         min_time_after_event::Int=4, 
         optimisation_window::Int=48, 
         move_forward::Int=24,
-        results_folder::String="results")
+        results_folder_name::String="results")
 
     # Run some checks on the input parameters
     if !(poe in [10, 50])
@@ -68,7 +68,7 @@ function assess_adequacy(;
     base_folder_pisp = joinpath(base_path, "pisp-datasets", case_name_buildout)
     base_folder_pras = joinpath(base_path, "pras-files", case_name)
     base_folder_schedules = joinpath(base_path, "schedules", case_name)
-    base_folder_results = joinpath(base_path, "results", case_name)
+    base_folder_results = joinpath(base_path, results_folder_name, case_name)
 
     pisp_input_folder = joinpath(base_folder_pisp, "out-ref$(reference_trace)-poe$(poe)", "csv")
     pras_folder = joinpath(base_folder_pras, "out-ref$(reference_trace)-poe$(poe)",)

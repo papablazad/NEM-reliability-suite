@@ -19,7 +19,7 @@ function write_julia_script(
     samples::Int,
     base_path::String,
     julia_repo_path::String,
-    results_folder::String
+    results_folder_name::String
 )
     ref_traces_str = join(ref_traces, ", ")
     content = """
@@ -36,7 +36,7 @@ for ref_trace in [$(ref_traces_str)]
         scenario        = $(scenario),
         base_path       = "$(base_path)",
         solver          = "Gurobi",
-        results_folder  = "$(results_folder)"
+        results_folder_name  = "$(results_folder_name)"
     )
 end
 """
@@ -150,8 +150,8 @@ function generate_run_scripts(;
     base_path::String                = "/data/gpfs/projects/punim2114/arpst/proj-4310_arpst_2026-1128.4.1597",
     julia_repo_path::String          = "/home/papablaza/git/NEM-reliability-suite",
     n_threads::Int                   = 10,
-    time_limit::String               = "2-00:00:00",
-    results_folder::String           = "results-spartan",
+    time_limit::String               = "3-12:00:00",
+    results_folder_name::String           = "results-spartan",
     sample_number_per_run::Int       = 100
 )
     parallelism_cap = ceil(Int, samples / sample_number_per_run)
@@ -177,7 +177,7 @@ function generate_run_scripts(;
 
                 write_julia_script(
                     jl_path, ty, scenario, poe,
-                    ref_traces, samples, base_path, julia_repo_path, results_folder
+                    ref_traces, samples, base_path, julia_repo_path, results_folder_name
                 )
                 write_slurm_script(
                     slurm_path, abspath(jl_path), ty, scenario, poe, n_threads, time_limit

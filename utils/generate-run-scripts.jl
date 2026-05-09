@@ -19,9 +19,12 @@ function write_julia_script(
     samples::Int,
     base_path::String,
     julia_repo_path::String,
-    results_folder_name::String
+    results_folder_name::String;
+    assess_adequacy_kwargs::Dict{Symbol,String} = Dict{Symbol,String}()
 )
     ref_traces_str = join(ref_traces, ", ")
+    extra_kwargs_lines = isempty(assess_adequacy_kwargs) ? "" :
+        "\n" * join(["        $(k) = $(v)," for (k, v) in assess_adequacy_kwargs], "\n")
     content = """
 using Pkg; Pkg.activate("$(julia_repo_path)")
 using PRAS, Gurobi, JuMP, PRASNEM, SchedNEM, Dates, CSV, Statistics
@@ -36,9 +39,7 @@ for ref_trace in [$(ref_traces_str)]
         scenario        = $(scenario),
         base_path       = "$(base_path)",
         solver          = "Gurobi",
-        DER_parameters  = PRASNEM.get_DER_parameters(; case="baseVPP"),
-        case_name       = "baseVPP",
-        results_folder_name  = "$(results_folder_name)"
+        results_folder_name  = "$(results_folder_name)",$(extra_kwargs_lines)
     )
 end
 """
@@ -139,6 +140,10 @@ parallelism cap is `ceil(samples / sample_number_per_run)` — with defaults
 - `results_folder`       — Sub-folder name for result CSVs. Default: `"results-spartan"`.
 - `sample_number_per_run`— Batch size used only to validate `n_threads` (see threading
                            note above); not forwarded to the generated scripts.
+- `assess_adequacy_kwargs` — Extra keyword arguments forwarded verbatim to `assess_adequacy()`
+                             in each generated script. Values must be valid Julia expression
+                             strings. Example:
+                             `Dict(:DER_parameters => "PRASNEM.get_DER_parameters(; case=\\"baseVPP\\")", :case_name => "\\"baseVPP\\"")`
 """
 function generate_run_scripts(;
     target_years::Vector{Int},
@@ -153,8 +158,9 @@ function generate_run_scripts(;
     julia_repo_path::String          = "/home/papablaza/git/NEM-reliability-suite",
     n_threads::Int                   = 10,
     time_limit::String               = "3-12:00:00",
-    results_folder_name::String           = "results-spartan",
-    sample_number_per_run::Int       = 100
+    results_folder_name::String      = "results-spartan",
+    sample_number_per_run::Int       = 100,
+    assess_adequacy_kwargs::Dict{Symbol,String} = Dict{Symbol,String}()
 )
     parallelism_cap = ceil(Int, samples / sample_number_per_run)
     if n_threads > parallelism_cap
@@ -179,7 +185,8 @@ function generate_run_scripts(;
 
                 write_julia_script(
                     jl_path, ty, scenario, poe,
-                    ref_traces, samples, base_path, julia_repo_path, results_folder_name
+                    ref_traces, samples, base_path, julia_repo_path, results_folder_name;
+                    assess_adequacy_kwargs
                 )
                 write_slurm_script(
                     slurm_path, abspath(jl_path), ty, scenario, poe, n_threads, time_limit

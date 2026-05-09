@@ -36,6 +36,8 @@ for ref_trace in [$(ref_traces_str)]
         scenario        = $(scenario),
         base_path       = "$(base_path)",
         solver          = "Gurobi",
+        DER_parameters  = PRASNEM.get_DER_parameters(; case="baseVPP"),
+        case_name       = "baseVPP",
         results_folder_name  = "$(results_folder_name)"
     )
 end

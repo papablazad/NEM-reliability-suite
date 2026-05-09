@@ -43,3 +43,4 @@ _personal scripts/*
 *.zip
 *.xml
 *.pras
+RUN*

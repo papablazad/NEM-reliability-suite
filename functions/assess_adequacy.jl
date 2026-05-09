@@ -107,6 +107,7 @@ function assess_adequacy(;
         move_forward=move_forward, input_folder=pisp_input_folder, 
         optimiser=solver_instance,
         genOpDetails=genOpDetails,
+        hydro_parameters=hydro_parameters,
         DER_parameters=DER_parameters)
     
     res = SchedNEM.run_operation_model(m, sys;
@@ -200,6 +201,8 @@ function assess_adequacy(;
 
         sf_new = SchedNEM.reoptimise(filename_input, sys, res, genAv.available, lineAv.available; 
                 default_horizon=default_horizon, min_time_after_event=min_time_after_event, 
+                DER_parameters=DER_parameters,
+                hydro_parameters=hydro_parameters,
                 optimisation_window=optimisation_window, move_forward=move_forward, 
                 optimiser_name=solver, input_folder=pisp_input_folder,
                 genOpDetails=genOpDetails);

@@ -54,3 +54,4 @@ runs*
 schedules/
 *.err
 *.out
+RUN*

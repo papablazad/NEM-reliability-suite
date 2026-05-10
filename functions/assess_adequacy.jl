@@ -1,3 +1,5 @@
+using DataFrames
+
 """
 
 Calculates the adequacy of the system with the full workflow, saving outputs of results under storage operation:
